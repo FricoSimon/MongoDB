@@ -9,6 +9,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Lastname is required!']
     },
+    username: {
+        type: String,
+        required: [true, 'Username is required!'],
+    },
     email: {
         type: String,
         required: [true, 'Email is required!'],
@@ -27,7 +31,7 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['User', 'Admin', 'Editor'],
+        enum: ['Member', 'Admin', 'Editor'],
     },
     viewedBy: {
         type: mongoose.Schema.Types.ObjectId,
@@ -53,5 +57,5 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 })
 
-const user = mongoose.model('User', userSchema)
-module.exports = user
+const User = mongoose.model('User', userSchema)
+module.exports = User
