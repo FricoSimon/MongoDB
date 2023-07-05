@@ -3,67 +3,12 @@ const app = express();
 require('dotenv').config();
 require('./config/connect');
 const port = process.env.PORT || 3000;
+const userRouter = require('./routes/userRoutes');
 
-// user routes
-app.post('/api/user/register', async (req, res) => {
-    try {
-        res.json({
-            status: 'success',
-            statusCode: 200,
-            message: 'User registered successfully!'
-        });
-    } catch (error) {
-        res.json({ error: error.message });
-    }
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.post('/api/user/login', async (req, res) => {
-    try {
-        res.json({
-            status: 'success',
-            statusCode: 200,
-            message: 'User login successfully!'
-        });
-    } catch (error) {
-        res.json({ error: error.message });
-    }
-});
-
-app.get('/api/user/profile/:id', async (req, res) => {
-    try {
-        res.json({
-            status: 'success',
-            statusCode: 200,
-            message: 'Profile fetched successfully!'
-        });
-    } catch (error) {
-        res.json({ error: error.message });
-    }
-});
-
-app.delete('/api/user/profile/:id', async (req, res) => {
-    try {
-        res.json({
-            status: 'success',
-            statusCode: 200,
-            message: 'Account deleted!'
-        });
-    } catch (error) {
-        res.json({ error: error.message });
-    }
-});
-
-app.put('/api/user/profile/:id', async (req, res) => {
-    try {
-        res.json({
-            status: 'success',
-            statusCode: 200,
-            message: 'Update successfully!'
-        });
-    } catch (error) {
-        res.json({ error: error.message });
-    }
-});
+app.use('/api/user', userRouter);
 
 // post routes
 app.post('/api/post', async (req, res) => {
@@ -107,7 +52,7 @@ app.put('/api/post/:id', async (req, res) => {
         res.json({
             status: 'success',
             statusCode: 200,
-            message: 'Post Updated!'
+            message: 'Put Updated!'
         });
     } catch (error) {
         res.json({ error: error.message });
