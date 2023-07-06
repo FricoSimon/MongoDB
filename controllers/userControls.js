@@ -2,7 +2,7 @@ const User = require("../model/User/user");
 
 // user functions
 const userRegister = async (req, res) => {
-    req.body = { firstName, lastName, username, email, password } = req.body;
+    const { firstName, lastName, username, email, password } = req.body;
 
     try {
         if (!email || !password) {
@@ -34,7 +34,19 @@ const userRegister = async (req, res) => {
 }
 
 const userLogin = async (req, res) => {
+    const { email, password } = req.body;
+
     try {
+        const userCheck = await User.findOne({ email })
+        const passCheck = await User.findOne({ password })
+        if (!userCheck || !passCheck) {
+            return res.json({
+                status: 'error',
+                statusCode: 400,
+                message: 'Email or Password is incorrect!'
+            });
+        }
+
         res.json({
             status: 'success',
             statusCode: 200,
