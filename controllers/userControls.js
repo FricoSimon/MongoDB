@@ -2,6 +2,7 @@ const User = require("../model/User/user");
 const bcrypt = require('bcryptjs');
 const generateToken = require('../utils/generateToken');
 const getJWT = require('../utils/getToken');
+const { decode } = require("jsonwebtoken");
 
 // user functions
 const userRegister = async (req, res) => {
@@ -82,15 +83,16 @@ const userLogin = async (req, res) => {
 }
 
 const userGetById = async (req, res) => {
-    const { id } = req.params;
+    const userId = req.userId;
 
     try {
         // check if token is exist and valid
-        const userId = await User.findById(id);
+        const userFind = await User.findById(userId);
         const token = getJWT(req);
         console.log(token);
+        console.log(userId);
 
-        if (!userId) {
+        if (!userFind) {
             return res.json({
                 status: 'error',
                 statusCode: 400,
