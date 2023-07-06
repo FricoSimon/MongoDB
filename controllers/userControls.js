@@ -73,11 +73,22 @@ const userLogin = async (req, res) => {
 }
 
 const userGetById = async (req, res) => {
+    const { id } = req.params;
+
     try {
+        const userId = await User.findById(id);
+
+        if (!userId) {
+            return res.json({
+                status: 'error',
+                statusCode: 400,
+                message: 'User not found!'
+            });
+        }
         res.json({
             status: 'success',
             statusCode: 200,
-            message: 'Profile fetched successfully!'
+            message: userId
         });
     } catch (error) {
         res.json({ error: error.message });
