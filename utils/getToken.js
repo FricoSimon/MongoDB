@@ -5,11 +5,7 @@ const getJWT = (req) => {
     if (token !== undefined) {
         return token;
     } else {
-        return ({
-            status: 'error',
-            statusCode: 400,
-            message: 'Token not found!'
-        });
+        return false;
     }
 }
 
