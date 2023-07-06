@@ -1,10 +1,32 @@
+const User = require("../model/User/user");
+
 // user functions
 const userRegister = async (req, res) => {
+    req.body = { firstName, lastName, username, email, password } = req.body;
+
     try {
+        if (!email || !password) {
+            return res.json({
+                status: 'error',
+                statusCode: 400,
+                message: 'Email and Password are required!'
+            });
+        }
+
+        const userCheck = await User.findOne({ email })
+        if (userCheck) {
+            return res.json({
+                status: 'error',
+                statusCode: 400,
+                message: 'Email already exists!'
+            });
+        }
+
+        const user = await User.create({ firstName, lastName, username, email, password })
         res.json({
             status: 'success',
             statusCode: 200,
-            message: 'User registered successfully!'
+            message: user
         });
     } catch (error) {
         res.json({ error: error.message });
