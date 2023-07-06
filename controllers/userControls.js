@@ -1,6 +1,7 @@
 const User = require("../model/User/user");
 const bcrypt = require('bcryptjs');
 const generateToken = require('../utils/generateToken');
+const getJWT = require('../utils/getToken');
 
 // user functions
 const userRegister = async (req, res) => {
@@ -84,7 +85,10 @@ const userGetById = async (req, res) => {
     const { id } = req.params;
 
     try {
+        // check if token is exist and valid
         const userId = await User.findById(id);
+        const token = getJWT(req);
+        console.log(token);
 
         if (!userId) {
             return res.json({
