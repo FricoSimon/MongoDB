@@ -1,3 +1,4 @@
+// category functions
 const categoryCreate = async (req, res) => {
     try {
         res.json({

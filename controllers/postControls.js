@@ -1,3 +1,4 @@
+// post functions
 const postCreate = async (req, res) => {
     try {
         res.json({

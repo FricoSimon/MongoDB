@@ -1,4 +1,4 @@
-// user register
+// user functions
 const userRegister = async (req, res) => {
     try {
         res.json({
