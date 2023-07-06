@@ -1,5 +1,6 @@
 const User = require("../model/User/user");
 const bcrypt = require('bcryptjs');
+const generateToken = require('../utils/generateToken');
 
 // user functions
 const userRegister = async (req, res) => {
@@ -62,10 +63,17 @@ const userLogin = async (req, res) => {
             });
         }
 
+        // login success
         res.json({
             status: 'success',
             statusCode: 200,
-            message: userCheck
+            message: {
+                firstName: userCheck.firstName,
+                lastName: userCheck.lastName,
+                email: userCheck.email,
+                isAdmin: userCheck.isAdmin,
+                token: generateToken(userCheck._id) // generate JWT 
+            }
         });
     } catch (error) {
         res.json({ error: error.message });
