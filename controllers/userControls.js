@@ -42,9 +42,19 @@ const userLogin = async (req, res) => {
     const { email, password } = req.body;
 
     try {
+        // check if email is exist
         const userCheck = await User.findOne({ email })
-        const passCheck = await User.findOne({ password })
-        if (!userCheck || !passCheck) {
+        if (!userCheck) {
+            return res.json({
+                status: 'error',
+                statusCode: 400,
+                message: 'Email or Password is incorrect!'
+            });
+        }
+
+        // check if password is correct
+        const passCheck = await bcrypt.compare(password, userCheck.password);
+        if (!passCheck) {
             return res.json({
                 status: 'error',
                 statusCode: 400,
@@ -55,7 +65,7 @@ const userLogin = async (req, res) => {
         res.json({
             status: 'success',
             statusCode: 200,
-            message: 'User login successfully!'
+            message: userCheck
         });
     } catch (error) {
         res.json({ error: error.message });
