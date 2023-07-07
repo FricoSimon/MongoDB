@@ -8,10 +8,10 @@ userRouter.post('/register', userRegister);
 
 userRouter.post('/login', userLogin);
 
-userRouter.get('/profile/:id', isLogin, userGetById);
+userRouter.get('/profile', isLogin, userGetById);
 
-userRouter.delete('/profile/:id', isLogin, userDelete);
+userRouter.delete('/profile', isLogin, userDelete);
 
-userRouter.put('/profile/:id', isLogin, userUpdate);
+userRouter.put('/profile', isLogin, userUpdate);
 
 module.exports = userRouter;

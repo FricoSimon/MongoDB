@@ -89,8 +89,6 @@ const userGetById = async (req, res) => {
         // check if token is exist and valid
         const userFind = await User.findById(userId);
         const token = getJWT(req);
-        console.log(token);
-        console.log(userId);
 
         if (!userFind) {
             return res.json({

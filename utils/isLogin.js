@@ -7,10 +7,14 @@ const isLogin = async (req, res, next) => {
     try {
         // get token
         const token = await getJWT(req);
+        console.log(`Token: ${token}`);
 
         // verify token
         const verify = await verifyToken(token);
+
+        // set userId from jwt
         req.userId = verify.id;
+        console.log(`userId: ${req.userId}`);
 
         if (!verify) {
             return res.json({
