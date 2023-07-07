@@ -1,5 +1,6 @@
 const getJWT = require('../utils/getToken');
 const verifyToken = require('../utils/decodeToken');
+const errorResponse = require('../utils/errorResponse');
 
 // isLogin functions
 const isLogin = async (req, res, next) => {
@@ -17,16 +18,12 @@ const isLogin = async (req, res, next) => {
         console.log(`userId: ${req.userId}`);
 
         if (!verify) {
-            return res.json({
-                status: 'error',
-                statusCode: 400,
-                message: 'Token is invalid!'
-            });
+            return next(errorResponse('Please login first!', 400));
         } else {
             next();
         }
     } catch (error) {
-        res.json({ error: error.message });
+        next(errorResponse(error.message, 400))
     }
 }
 

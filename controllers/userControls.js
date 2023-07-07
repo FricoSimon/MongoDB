@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const generateToken = require('../utils/generateToken');
 const getJWT = require('../utils/getToken');
 const { decode } = require("jsonwebtoken");
+const errorResponse = require('../utils/errorResponse');
 
 // user functions
 const userRegister = async (req, res, next) => {
@@ -10,12 +11,12 @@ const userRegister = async (req, res, next) => {
 
     try {
         if (!email || !password) {
-            return next(new Error('Email and Password are required!'))
+            return next(errorResponse('Please provide an email and password!', 400));
         }
 
         const userCheck = await User.findOne({ email })
         if (userCheck) {
-            return next(new Error('Email already exist!'));
+            return next(errorResponse('Email already exist!', 400));
         }
         // hash password
         const salt = await bcrypt.genSalt(10);
@@ -29,7 +30,7 @@ const userRegister = async (req, res, next) => {
             message: user
         });
     } catch (error) {
-        next(new Error(error.message))
+        next(errorResponse(error.message, 400))
     }
 }
 
@@ -83,11 +84,7 @@ const userGetById = async (req, res) => {
         const token = getJWT(req);
 
         if (!userFind) {
-            return res.json({
-                status: 'error',
-                statusCode: 400,
-                message: 'User not found!'
-            });
+            return next(errorResponse('User not found!', 404));
         }
         res.json({
             status: 'success',
@@ -95,7 +92,7 @@ const userGetById = async (req, res) => {
             message: userId
         });
     } catch (error) {
-        res.json({ error: error.message });
+        next(errorResponse(error.message, 400))
     }
 }
 
