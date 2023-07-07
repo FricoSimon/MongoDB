@@ -20,6 +20,20 @@ app.use('/api/post', postRouter);
 app.use('/api/comment', commentRouter);
 app.use('/api/category', categoryRouter);
 
+app.use((err, req, res, next) => {
+    const status = err.status ? err.status : 'Failed';
+    const statusCode = err?.statusCode ? err.statusCode : 500;
+    const stack = err.stack;
+    const message = err.message;
+
+    res.status(statusCode).json({
+        status,
+        statusCode,
+        stack,
+        message
+    })
+})
+
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });

@@ -5,25 +5,17 @@ const getJWT = require('../utils/getToken');
 const { decode } = require("jsonwebtoken");
 
 // user functions
-const userRegister = async (req, res) => {
+const userRegister = async (req, res, next) => {
     const { firstName, lastName, username, email, password } = req.body;
 
     try {
         if (!email || !password) {
-            return res.json({
-                status: 'error',
-                statusCode: 400,
-                message: 'Email and Password are required!'
-            });
+            return next(new Error('Email and Password are required!'))
         }
 
         const userCheck = await User.findOne({ email })
         if (userCheck) {
-            return res.json({
-                status: 'error',
-                statusCode: 400,
-                message: 'Email already exists!'
-            });
+            return next(new Error('Email already exist!'));
         }
         // hash password
         const salt = await bcrypt.genSalt(10);
@@ -37,7 +29,7 @@ const userRegister = async (req, res) => {
             message: user
         });
     } catch (error) {
-        res.json({ error: error.message });
+        next(new Error(error.message))
     }
 }
 
