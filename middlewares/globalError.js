@@ -1,3 +1,4 @@
+// global error handler
 const errorHandler = (err, req, res, next) => {
     const status = err.status ? err.status : 'Failed';
     const message = err.message;

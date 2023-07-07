@@ -1,3 +1,4 @@
+// error global response
 const errorResponse = (message, statuscode) => {
     const error = new Error(message);
     error.statusCode = statuscode ? statuscode : 500;
