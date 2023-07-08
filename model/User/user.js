@@ -21,6 +21,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Password is required!'],
     },
+    photoProfile: {
+        type: String,
+    },
     isBlocked: {
         type: Boolean,
         default: false
@@ -53,6 +56,11 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post'
     },
+    plan: {
+        type: String,
+        enum: ['Free', 'Premium'],
+        default: 'Free'
+    }
 }, {
     timestamps: true
 })
