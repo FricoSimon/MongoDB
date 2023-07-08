@@ -34,7 +34,7 @@ const userRegister = async (req, res, next) => {
     }
 }
 
-const userLogin = async (req, res) => {
+const userLogin = async (req, res, next) => {
     const { email, password } = req.body;
 
     try {
@@ -75,7 +75,7 @@ const userLogin = async (req, res) => {
     }
 }
 
-const userGetById = async (req, res) => {
+const userGetById = async (req, res, next) => {
     const userId = req.userId;
 
     try {
@@ -96,7 +96,7 @@ const userGetById = async (req, res) => {
     }
 }
 
-const userDelete = async (req, res) => {
+const userDelete = async (req, res, next) => {
     try {
         res.json({
             status: 'success',
@@ -108,7 +108,7 @@ const userDelete = async (req, res) => {
     }
 }
 
-const userUpdate = async (req, res) => {
+const userUpdate = async (req, res, next) => {
     try {
         res.json({
             status: 'success',
@@ -120,4 +120,17 @@ const userUpdate = async (req, res) => {
     }
 }
 
-module.exports = { userRegister, userLogin, userGetById, userDelete, userUpdate };  
+const userUploadImage = async (req, res, next) => {
+
+    try {
+        res.json({
+            status: 'success',
+            statusCode: 200,
+            message: 'Upload successfully!'
+        });
+    } catch (error) {
+        next(errorResponse(error.message, 400))
+    }
+}
+
+module.exports = { userRegister, userLogin, userGetById, userDelete, userUpdate, userUploadImage };  
